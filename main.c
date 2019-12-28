@@ -15,30 +15,27 @@ uint64_t GetTimeStamp()
 
 void ft_bzero(void *s, size_t n)
 {
-	unsigned char *arr;
-
-	arr = (unsigned char *) s;
-	while ((size_t) arr % sizeof(unsigned long) && n)
+	while ((size_t)s % sizeof(unsigned long) && n)
 	{
-		*arr++ = 0;
+		*(unsigned char *)s++ = 0;
 		n--;
 	}
 	while (n >= sizeof(unsigned long))
 	{
-		*(unsigned long *) arr++ = 0;
+		*(unsigned long *)s++ = 0;
 		n -= sizeof(unsigned long);
 	}
 	while (n)
 	{
-		*arr++ = 0;
+		*(unsigned char *)s++ = 0;
 		n--;
 	}
 }
 
 void ft_bzero_old(void *s, size_t n)
 {
-	unsigned char *arr;
-	size_t		   count;
+	unsigned char	*arr;
+	size_t			count;
 
 	count = 0;
 	arr	  = (unsigned char *) s;
@@ -48,21 +45,23 @@ void ft_bzero_old(void *s, size_t n)
 
 int main()
 {
-	char *buf;
+	char		*buf;
+	size_t		size;
 
-	buf = malloc(100 * 1000 * 1000);
+	size = 1000 * 1000 * 1000;
+	buf = malloc(size);
 	if (buf)
 	{
 		uint64_t before = GetTimeStamp();
-		bzero(buf, 100 * 1000 * 1000);
+		bzero(buf, size);
 		uint64_t after = GetTimeStamp();
 		printf("Standard bzero time: %luus\n", after - before);
 		before = GetTimeStamp();
-		ft_bzero_old(buf, 100 * 1000 * 1000);
+		ft_bzero_old(buf, size);
 		after = GetTimeStamp();
 		printf("My bzero_old time: %luus\n", after - before);
 		before = GetTimeStamp();
-		ft_bzero(buf, 100 * 1000 * 1000);
+		ft_bzero(buf, size);
 		after = GetTimeStamp();
 		printf("My bzero time: %luus\n", after - before);
 	}
