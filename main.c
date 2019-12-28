@@ -13,21 +13,27 @@ uint64_t GetTimeStamp()
 	return tv.tv_sec * (uint64_t) 1000000 + tv.tv_usec;
 }
 
+typedef unsigned long t_bzero_elem;
+
 void ft_bzero(void *s, size_t n)
 {
-	while ((size_t)s % sizeof(unsigned long) && n)
+	unsigned char	*sc;
+
+	sc = (unsigned char *)s;
+	while ((size_t)sc % sizeof(t_bzero_elem) && n)
 	{
-		*(unsigned char *)s++ = 0;
+		*sc++ = 0;
 		n--;
 	}
-	while (n >= sizeof(unsigned long))
+	while (n >= sizeof(t_bzero_elem))
 	{
-		*(unsigned long *)s++ = 0;
-		n -= sizeof(unsigned long);
+		*(t_bzero_elem *)sc = 0;
+		sc += sizeof(t_bzero_elem);
+		n -= sizeof(t_bzero_elem);
 	}
 	while (n)
 	{
-		*(unsigned char *)s++ = 0;
+		*sc++ = 0;
 		n--;
 	}
 }
