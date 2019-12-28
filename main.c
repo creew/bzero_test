@@ -54,7 +54,7 @@ int main()
 	char		*buf;
 	size_t		size;
 
-	size = 1000 * 1000 * 1000;
+	size = 10000;
 	buf = malloc(size);
 	if (buf)
 	{
@@ -70,6 +70,10 @@ int main()
 		ft_bzero(buf, size);
 		after = GetTimeStamp();
 		printf("My bzero time: %luus\n", after - before);
+		before = GetTimeStamp();
+		memset(buf,0, size);
+		after = GetTimeStamp();
+		printf("Memset time: %luus\n", after - before);
 	}
 	printf("Hello, World!\n");
 	return 0;
